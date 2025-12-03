@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des articles{% endblock %}
+
+{% block body %}
+
+    <h1>Liste des articles</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for article in articles %}
+            <tr>
+                <td>{{ article.name }}</td>
+                <td>{{ article.price }}</td>
+                <td>
+                    {#                    <a href="{{ path('article_show', {'id': article.id}) }}" class="btn btn-info">Détails</a>
+                       <a href="{{ path('article_edit', {'id': article.id}) }}" class="btn btn-warning">Modifier</a>
+                        {{ include('article/_delete_form.html.twig') }}
+                    #}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Aucun article n'a été trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('article_new') }}" class="btn btn-success"><i class="fa fa-plus"></i> Ajouter un article</a>
+{% endblock %}

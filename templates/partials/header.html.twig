@@ -15,16 +15,17 @@
                        class="nav-link {% if current_menu is defined and current_menu == 'home' %}active{% endif %}">
                         <i class="fa fa-home"></i> Home
                     </a>
+
                 </li>
 
                 <!-- Dropdown Articles -->
                 <li class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle"
+                    <a href="#" class="nav-link dropdown-toggle {% if current_menu is defined and current_menu == 'articles' %}active{% endif %}"
                        data-bs-toggle="dropdown" role="button" aria-expanded="false">
                         <i class="fa fa-desktop"></i> Articles
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a href="#"
+                        <li><a href="{{ path('article_index') }}"
                                class="dropdown-item "><i class="fa fa-th-list"></i> Liste des articles</a></li>
                         {% if app.user %}
                             <li>
