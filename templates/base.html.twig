@@ -1,17 +1,42 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
-
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
+<html lang="fr" data-bs-theme="auto">
+<head data-bs-theme="auto">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Ongi etorri{% endblock %}</title>
+    {% block stylesheets %}
+        <link href="//bootswatch.com/5/flatly/bootstrap.css" rel="stylesheet">
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="shortcut icon" href="images/logostjo.png">
+    {% endblock %}
+</head>
+<body class="d-flex flex-column min-vh-100">
+<header data-bs-theme="auto">
+    {% include 'partials/header.html.twig'%}
+</header>
+{% for label, messages in app.flashes %}
+    <div class="container mt-2">
+        {% for message in messages %}
+            <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                {{ message | raw }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+            </div>
+        {% endfor %}
+    </div>
+{% endfor %}
+<main data-bs-theme="auto">
+    <div class="container mt-3">
         {% block body %}{% endblock %}
-    </body>
+    </div>
+</main>
+<div class="filler"></div>
+<footer class="container mt-auto" data-bs-theme="auto">
+    {{ include('partials/footer.html.twig') }}
+</footer>
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+{% endblock %}
+</body>
 </html>

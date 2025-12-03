@@ -1,0 +1,116 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-3">
+    <div class="container-fluid">
+        <a href="/" class="navbar-brand">CIEL IR notre 1er projet Symfony</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- Menu principal -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a href="{{ path('home') }}"
+                       class="nav-link {% if current_menu is defined and current_menu == 'home' %}active{% endif %}">
+                        <i class="fa fa-home"></i> Home
+                    </a>
+                </li>
+
+                <!-- Dropdown Articles -->
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle"
+                       data-bs-toggle="dropdown" role="button" aria-expanded="false">
+                        <i class="fa fa-desktop"></i> Articles
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a href="#"
+                               class="dropdown-item "><i class="fa fa-th-list"></i> Liste des articles</a></li>
+                        {% if app.user %}
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a href="#" class="dropdown-item"><i class="fa fa-shopping-cart"></i> Ma liste</a></li>
+                        {% endif %}
+                        {% if is_granted('ROLE_EDITOR') %}
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a href="#"
+                                   class="dropdown-item"><i class="fa fa-plus"></i> Ajouter un article</a></li>
+                        {% endif %}
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Dropdown Catégories -->
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle"
+                       data-bs-toggle="dropdown" role="button" aria-expanded="false">
+                        <i class="fa fa-inbox"></i> Catégories
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a href="#"
+                               class="dropdown-item"><i class="fa fa-th-large"></i> Liste des catégories</a></li>
+                        {% if is_granted('ROLE_EDITOR') %}
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a href="#"
+                                   class="dropdown-item"><i class="fa fa-plus-square"></i> Ajouter une catégorie</a>
+                            </li>
+                        {% endif %}
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                    </ul>
+                </li>
+
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item">
+                        <a href="#"
+                           class="nav-link">
+                            <i class="fa fa-cog"></i> Administration</a>
+                    </li>
+                {% endif %}
+            </ul>
+
+            <!-- Recherche + menu utilisateur -->
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <!-- Formulaire recherche -->
+                <li class="nav-item">
+                    <form class="d-flex me-3" method="get" action="#">
+                        <input name="keyword" class="form-control form-control-sm me-2" type="search"
+                               placeholder="Recherche par mot clé article" aria-label="Search">
+                        <button class="btn btn-outline-dark btn-sm" type="submit">Rechercher</button>
+                    </form>
+                </li>
+
+                {% if app.user %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-user"></i> #
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="#">
+                                    <i class="fa fa-pencil-square-o"></i> Modifier mon profil</a></li>
+                            <li><a class="dropdown-item" href="#">
+                                    <i class="fa fa-sign-out"></i> Déconnexion</a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a href="#" class="nav-link"><i class="fa fa-sign-in"></i> Connexion</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fa fa-hand-o-right"></i> Inscription</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
