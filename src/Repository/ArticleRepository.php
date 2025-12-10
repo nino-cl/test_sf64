@@ -28,4 +28,13 @@ class ArticleRepository extends ServiceEntityRepository
             $this->em->flush();
         }
     }
+
+    public function remove(Article $entity, bool $flush = false): void
+    {
+        $this->em->remove($entity);
+
+        if ($flush) {
+            $this->em->flush();
+        }
+    }
 }

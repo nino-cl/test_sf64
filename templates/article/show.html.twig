@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article{% endblock %}
+
+{% block body %}
+    <h1>Article</h1>
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Nom de l'article</th>
+            <td>{{ article.name }}</td>
+        </tr>
+        <tr>
+            <th>Prix de l'article</th>
+            <td>{{ article.price }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-start mt-3">
+        <a href="{{ path('article_index') }}"><button type="button" class="btn btn-secondary me-md-2"><i class="fa fa-reply"></i> Retour</button></a>
+        {#        Optionnel : boutons Modifier et Supprimer#}
+        <a href="{{ path('article_edit', {'id': article.id}) }}"><button type="button" class="btn btn-warning me-md-2"><i class="fa fa-reply"></i> Modifier</button></a>
+        {{ include('article/_delete.html.twig') }}
+    </div>
+
+{% endblock %}
