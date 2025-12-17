@@ -20,7 +20,7 @@
 
                 <!-- Dropdown Articles -->
                 <li class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle {% if current_menu is defined and current_menu == 'articles' %}active{% endif %}"
+                    <a href="../articles/index.html.twig" class="nav-link dropdown-toggle {% if current_menu is defined and current_menu == 'articles' %}active{% endif %}"
                        data-bs-toggle="dropdown" role="button" aria-expanded="false">
                         <i class="fa fa-desktop"></i> Articles
                     </a>
@@ -48,12 +48,12 @@
 
                 <!-- Dropdown Catégories -->
                 <li class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle"
+                    <a href="" class="nav-link dropdown-toggle"
                        data-bs-toggle="dropdown" role="button" aria-expanded="false">
                         <i class="fa fa-inbox"></i> Catégories
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a href="#"
+                        <li><a href="../category/index.html.twig"
                                class="dropdown-item"><i class="fa fa-th-large"></i> Liste des catégories</a></li>
                         {% if is_granted('ROLE_EDITOR') %}
                             <li>

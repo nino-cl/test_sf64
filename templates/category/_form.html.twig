@@ -1,4 +1,12 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+<div class="row">
+    <div class="col-md-10">{{ form_row(form.title) }}</div>
+</div>
+<div class="row">
+    <div class="col-md-10">{{ form_row(form.description) }}</div>
+</div>
+<div class="d-flex justify-content-start mt-3">
+    <button class="btn btn-success me-md-2"><i class="fa fa-check"></i> {{ button_label|default('Sauvegarder') }}</button>
+    <a href="{{ path('category_index') }}"><button type="button" class="btn btn-secondary me-md-2"><i class="fa fa-reply"></i> Retour</button></a>
+</div>
 {{ form_end(form) }}
