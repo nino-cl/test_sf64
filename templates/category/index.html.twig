@@ -22,8 +22,8 @@
                 <td>{{ category.title }}</td>
                 <td>{{ category.description }}</td>
                 <td>
-                    <a href="{{ path('category_show', {'id': category.id}) }}">Show</a>
-                    <a href="{{ path('category_edit', {'id': category.id}) }}">Edit</a>
+                    <a href="{{ path('article_show', {'id': category.id}) }}" class="btn btn-info">Détails</a>
+                    <a href="{{ path('article_edit', {'id': category.id}) }}" class="btn btn-warning">Modifier</a>
                     {{ include('category/_delete.html.twig') }}
 
 

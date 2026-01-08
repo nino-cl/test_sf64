@@ -15,35 +15,11 @@ class CategoryRepository extends ServiceEntityRepository
     private EntityManagerInterface $em;
 
 
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $em)
     {
         parent::__construct($registry, Category::class);
+        $this->em = $em;
     }
-
-    //    /**
-    //     * @return Category[] Returns an array of Category objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('c.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Category
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 
     public function save(Category $entity, bool $flush = false): void
     {
@@ -61,4 +37,5 @@ class CategoryRepository extends ServiceEntityRepository
         if ($flush) {
             $this->em->flush();
         }
-    }}
+    }
+}
