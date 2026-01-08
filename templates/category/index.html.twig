@@ -6,32 +6,28 @@
 
     <h1>Liste des catégories</h1>
 
-    <table class="table">
+    <table class="table table-fixed">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Description</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th class="name-cell">Nom</th>
+            <th>Description</th>
+            <th class="action-cell">Actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for category in categories %}
             <tr>
-                <td>{{ category.id }}</td>
-                <td>{{ category.title }}</td>
-                <td>{{ category.description }}</td>
-                <td>
-                    <a href="{{ path('article_show', {'id': category.id}) }}" class="btn btn-info">Détails</a>
-                    <a href="{{ path('article_edit', {'id': category.id}) }}" class="btn btn-warning">Modifier</a>
+                <td class="name-cell">{{ category.title }}</td>
+                <td class="description-cell">{{ category.description }}</td>
+                <td class="action-cell">
+                    <a href="{{ path('category_show', {'id': category.id}) }}" class="btn btn-info btn-sm">Détails</a>
+                    <a href="{{ path('category_edit', {'id': category.id}) }}" class="btn btn-warning btn-sm">Modifier</a>
                     {{ include('category/_delete.html.twig') }}
-
-
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">Aucune catégorie n'a été trouvée</td>
+                <td colspan="3">Aucune catégorie n'a été trouvée</td>
             </tr>
         {% endfor %}
         </tbody>
