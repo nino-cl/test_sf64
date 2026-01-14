@@ -25,8 +25,7 @@
     <div class="d-flex justify-content-start mt-3">
         <a href="{{ path('category_index') }}"><button type="button" class="btn btn-secondary me-md-2"><i class="fa fa-reply"></i> Retour</button></a>
         {#        Optionnel : boutons Modifier et Supprimer#}
-        <a href="{{ path('category_edit', {'id': article.id}) }}"><button type="button" class="btn btn-warning me-md-2"><i class="fa fa-reply"></i> Modifier</button></a>
+        <a href="{{ path('category_edit', {'id': category.id}) }}"><button type="button" class="btn btn-warning me-md-2"><i class="fa fa-reply"></i> Modifier</button></a>
         {{ include('category/_delete.html.twig') }}
     </div>
-    {{ include('category/_delete.html.twig') }}
 {% endblock %}

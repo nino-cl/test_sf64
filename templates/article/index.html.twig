@@ -6,22 +6,22 @@
 
     <h1>Liste des articles</h1>
 
-    <table class="table">
+    <table class="table table-fixed">
         <thead>
         <tr>
-            <th>Nom</th>
+            <th class="name-cell">Nom</th>
             <th>Prix</th>
             <th>Catégorie</th>
-            <th>Actions</th>
+            <th class="action-cell">Actions</th>
         </tr>
         </thead>
         <tbody>
         {% for article in articles %}
             <tr>
-                <td>{{ article.name }}</td>
+                <td class="name-cell">{{ article.name }}</td>
                 <td>{{ article.price }}</td>
                 <td>{{ article.category }}</td>
-                <td>
+                <td class="action-cell">
                     <a href="{{ path('article_show', {'id': article.id}) }}" class="btn btn-info">Détails</a>
                     <a href="{{ path('article_edit', {'id': article.id}) }}" class="btn btn-warning">Modifier</a>
                     {{ include('article/_delete.html.twig') }}

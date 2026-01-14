@@ -1,10 +1,12 @@
+
 /*Largeur de la cellule nom la plus faible possible*/
+
 th.name-cell, td.name-cell {
-    width: 200px; /* ou width: 20%; selon ton besoin */
+    width: 200px; /* ou width: 20%; selon ton besoin*/
     white-space: nowrap;
     vertical-align: middle;
 }
-/*Passage à la ligne du texte de la description*/
+/* Passage à la ligne du texte de la description*/
 td.description-cell {
     white-space: normal;
     word-break: break-word;
