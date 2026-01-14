@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User index{% endblock %}
+{% block title %}Liste des utilisateurs{% endblock %}
 
 {% block body %}
     <h1>User index</h1>
@@ -8,36 +8,33 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Email</th>
-                <th>Roles</th>
-                <th>Password</th>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>actions</th>
+                <th class="name-cell">Prénom</th>
+                <th class="name-cell">Nom</th>
+                <th class="email-cell">Email</th>
+                <th>Rôles</th>
+                <th class="action-cell">Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for user in users %}
             <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.email }}</td>
+                <td class="name-cell">{{ user.firstname }}</td>
+                <td class="name-cell">{{ user.lastname }}</td>
+                <td class="email-cell">{{ user.email }}</td>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.password }}</td>
-                <td>{{ user.firstname }}</td>
-                <td>{{ user.lastname }}</td>
                 <td>
-                    <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
+                    <a href="{{ path('user_show', {'id': user.id}) }}" class="btn btn-info">Détails</a>
+                    <a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-warning">Modifier</a>
+                    {{ include('user/_delete.html.twig') }}
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="7">no records found</td>
+                <td colspan="4">Aucun utilisateur n'a été trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_user_new') }}">Create new</a>
+    <a href="{{ path('user_new') }}" class="btn btn-success"><i class="fa fa-plus"></i> Ajouter un utilisateur</a>
 {% endblock %}
