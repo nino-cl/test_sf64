@@ -35,8 +35,7 @@ final class UserController extends AbstractController
 
 //    #[IsGranted('ROLE_ADMIN')]
     #[Route('/new', name: 'user_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher,
-                        PasswordValidator $passwordValidator): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user, [
@@ -52,22 +51,16 @@ final class UserController extends AbstractController
             if ($plainPassword !== $confirmPassword) {
                 $form->get('confirm_password')->addError(new FormError('Les mots de passe ne correspondent pas.'));
             } else {
-                $violations = $passwordValidator->validate($plainPassword);
-                if (count($violations) > 0) {
-                    foreach ($violations as $violation) {
-                        $form->get('password')->addError(new FormError($violation->getMessage()));
-                    }
-                } else {
-                    $hashedPassword = $passwordHasher->hashPassword($user, $plainPassword);
-                    $user->setPassword($hashedPassword);
+                $hashedPassword = $passwordHasher->hashPassword($user, $plainPassword);
+                $user->setPassword($hashedPassword);
 
-                    $userRepository->save($user, true);
-                    $this->addFlash('success', "L'utilisateur <strong>{$user->getFirstname()} {$user->getLastname()}</strong> a bien été enregistré");
+                $entityManager->persist($user);
+                $entityManager->flush();
 
-                    return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
-                }
+                return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
             }
         }
+
         return $this->render('user/new.html.twig', [
             'current_menu' => 'users',
             'user' => $user,
@@ -86,12 +79,12 @@ final class UserController extends AbstractController
     }
 //    #[IsGranted('ROLE_USER')]
     #[Route('/{id}/edit', name: 'user_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, UserRepository $userRepository, UserInterface $loggedInUser,
-                         AuthorizationCheckerInterface $authChecker, UserPasswordHasherInterface $passwordHasher,
-                         PasswordValidator $passwordValidator): Response
+    public function edit(Request $request, User $user, EntityManagerInterface $entityManager, UserInterface $loggedInUser,
+                         AuthorizationCheckerInterface $authChecker, UserPasswordHasherInterface $passwordHasher): Response
     {
-        //$isAdmin = $authChecker->isGranted('ROLE_ADMIN');
+        $isAdmin = $authChecker->isGranted('ROLE_ADMIN');
 
+        // Si l'utilisateur connecté n'est pas admin, il ne peut modifier que son propre profil
         if (!$isAdmin && $user !== $loggedInUser) {
             throw $this->createAccessDeniedException('Vous ne pouvez modifier que votre propre profil.');
         }
@@ -100,7 +93,7 @@ final class UserController extends AbstractController
 
         $form = $this->createForm(UserType::class, $user, [
             'is_admin' => $isAdmin,
-            'is_edit' => true,
+            'is_edit' => true, // ou false si c’est l’inscription
         ]);
         $form->handleRequest($request);
 
@@ -108,33 +101,23 @@ final class UserController extends AbstractController
             $plainPassword = $form->get('password')->getData();
             $confirmPassword = $form->get('confirm_password')->getData();
 
-            if (!empty($plainPassword)) {
-                if ($plainPassword !== $confirmPassword) {
-                    $form->get('confirm_password')->addError(new FormError('Les mots de passe ne correspondent pas.'));
-                } else {
-                    $violations = $passwordValidator->validate($plainPassword);
-                    if (count($violations) > 0) {
-                        foreach ($violations as $violation) {
-                            $form->get('password')->addError(new FormError($violation->getMessage()));
-                        }
-                    } else {
-                        $user->setPassword(
-                            $passwordHasher->hashPassword($user, $plainPassword)
-                        );
-                    }
+            // Vérifie que les deux mots de passe correspondent (si l’un est saisi)
+            if (!empty($plainPassword) && $plainPassword !== $confirmPassword) {
+                $form->get('confirm_password')->addError(new FormError('Les mots de passe ne correspondent pas.'));
+            } else {
+                if (!empty($plainPassword)) {
+                    $user->setPassword(
+                        $passwordHasher->hashPassword($user, $plainPassword)
+                    );
                 }
-            }
 
-            // Si le formulaire est toujours valide après les éventuelles erreurs ajoutées
-            if ($form->isValid()) {
                 if (!$isAdmin) {
-                    $user->setRoles($originalRoles);
+                    $user->setRoles($originalRoles); // préservation des rôles
                 }
 
-                $userRepository->save($user, true);
-                $this->addFlash('success', "L'utilisateur <strong>{$user->getFirstname()} {$user->getLastname()}</strong> a bien été modifié");
+                $entityManager->flush();
 
-                return $this->redirectToRoute($isAdmin ? 'user_index' : 'article_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute($isAdmin ? 'user_index' : 'article_index',[],Response::HTTP_SEE_OTHER);
             }
         }
 

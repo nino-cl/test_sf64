@@ -15,12 +15,12 @@
                        class="nav-link {% if current_menu is defined and current_menu == 'home' %}active{% endif %}">
                         <i class="fa fa-home"></i> Home
                     </a>
-
                 </li>
 
                 <!-- Dropdown Articles -->
                 <li class="nav-item dropdown">
-                    <a href="../articles/index.html.twig" class="nav-link dropdown-toggle {% if current_menu is defined and current_menu == 'articles' %}active{% endif %}"
+                    <a href="#" class="nav-link dropdown-toggle
+                    {% if current_menu is defined and current_menu == 'articles' %}active{% endif %}"
                        data-bs-toggle="dropdown" role="button" aria-expanded="false">
                         <i class="fa fa-desktop"></i> Articles
                     </a>
@@ -37,7 +37,7 @@
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a href="#"
+                            <li><a href="{{ path('article_new') }}"
                                    class="dropdown-item"><i class="fa fa-plus"></i> Ajouter un article</a></li>
                         {% endif %}
                         <li>
@@ -48,18 +48,19 @@
 
                 <!-- Dropdown Catégories -->
                 <li class="nav-item dropdown">
-                    <a href="" class="nav-link dropdown-toggle"
+                    <a href="#" class="nav-link dropdown-toggle
+                    {% if current_menu is defined and current_menu == 'categories' %}active{% endif %}"
                        data-bs-toggle="dropdown" role="button" aria-expanded="false">
                         <i class="fa fa-inbox"></i> Catégories
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a href="../category"
+                        <li><a href="{{ path('category_index') }}"
                                class="dropdown-item"><i class="fa fa-th-large"></i> Liste des catégories</a></li>
                         {% if is_granted('ROLE_EDITOR') %}
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a href="#"
+                            <li><a href="{{ path('category_new') }}"
                                    class="dropdown-item"><i class="fa fa-plus-square"></i> Ajouter une catégorie</a>
                             </li>
                         {% endif %}
@@ -69,13 +70,13 @@
                     </ul>
                 </li>
 
-               {#  {% if is_granted('ROLE_ADMIN') %}#}
+                {% if is_granted('ROLE_ADMIN') %}
                     <li class="nav-item">
-                        <a href="#"
-                           class="nav-link">
+                        <a href="{{ path('user_index') }}"
+                           class="nav-link {% if current_menu is defined and current_menu == 'users' %}active{% endif %}">
                             <i class="fa fa-cog"></i> Administration</a>
                     </li>
-                {#  {% endif %}#}
+                {% endif %}
             </ul>
 
             <!-- Recherche + menu utilisateur -->
@@ -83,8 +84,8 @@
                 <!-- Formulaire recherche -->
                 <li class="nav-item">
                     <form class="d-flex me-3" method="get" action="#">
-                        <input name="keyword" class="form-control form-control-sm me-2" type="search"
-                               placeholder="Recherche par mot clé article" aria-label="Search">
+                        <input name="mot_cle" class="form-control form-control-sm me-2" type="search"
+                               placeholder="Recherche par nom article" aria-label="Search">
                         <button class="btn btn-outline-dark btn-sm" type="submit">Rechercher</button>
                     </form>
                 </li>
@@ -93,21 +94,21 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa fa-user"></i> #
+                            <i class="fa fa-user"></i> {{ app.user.lastname }}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="#">
+                            <li><a class="dropdown-item" href="{{ path('user_edit', {id: app.user.id}) }}">
                                     <i class="fa fa-pencil-square-o"></i> Modifier mon profil</a></li>
-                            <li><a class="dropdown-item" href="#">
+                            <li><a class="dropdown-item" href="{{ path('logout') }}">
                                     <i class="fa fa-sign-out"></i> Déconnexion</a></li>
                         </ul>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a href="#" class="nav-link"><i class="fa fa-sign-in"></i> Connexion</a>
+                        <a href="{{ path('login') }}" class="nav-link"><i class="fa fa-sign-in"></i> Connexion</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ path('registration') }}" class="nav-link">
                             <i class="fa fa-hand-o-right"></i> Inscription</a>
                     </li>
                 {% endif %}

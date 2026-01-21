@@ -42,7 +42,7 @@ class UserType extends AbstractType
                 'mapped' => false,
                 'label' => 'Mot de passe',
                 'attr' => [
-                    'placeholder' => "Min 12 caractères dont 1 Majuscule, 1 chiffre, 1 spécial ! @ # $ % ^ & * ( ) + , . ? : { } | < > /",
+                    'placeholder' => 'Entrez votre mot de passe',
                     'autocomplete' => 'new-password',
                 ],
                 'empty_data' => '',
